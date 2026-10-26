@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080d1a">
+  <title>GR Fit | Sua evolução começa aqui</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #080d1a;
+      color: #f5f7ff;
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 22px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #202b43;
+    }
+
+    .logo { font-size: 26px; font-weight: 800; }
+    .logo span { color: #27d7ff; }
+
+    main {
+      width: min(1000px, 90%);
+      margin: 70px auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 35px;
+      align-items: center;
+    }
+
+    h1 { font-size: clamp(36px, 5vw, 58px); margin-bottom: 20px; }
+    h1 span { color: #27d7ff; }
+
+    p { color: #aab6cc; line-height: 1.7; margin-bottom: 22px; }
+
+    .card {
+      background: #101a2e;
+      padding: 28px;
+      border: 1px solid #24344f;
+      border-radius: 18px;
+    }
+
+    label { display: block; margin: 14px 0 7px; color: #cbd5e1; }
+
+    input, select {
+      width: 100%;
+      padding: 13px;
+      background: #080d1a;
+      color: white;
+      border: 1px solid #34435c;
+      border-radius: 9px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 18px;
+      padding: 14px;
+      border: 0;
+      border-radius: 9px;
+      background: #27d7ff;
+      color: #06101d;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .message { margin-top: 15px; font-size: 14px; }
+    .hidden { display: none; }
+
+    @media (max-width: 700px) {
+      main { grid-template-columns: 1fr; margin: 40px auto; }
+      header { padding: 20px 5%; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">GR <span>FIT</span></div>
+    <span>Treino · Saúde · Evolução</span>
+  </header>
+
+  <main>
+    <section>
+      <p>SEU PRÓXIMO NÍVEL COMEÇA AGORA</p>
+      <h1>Construa sua evolução com o <span>GR Fit.</span></h1>
+      <p>
+        Organize seus treinos, acompanhe suas avaliações
+        e veja seu progresso em um só lugar.
+      </p>
+    </section>
+
+    <section class="card">
+      <div id="auth">
+        <h2 id="formTitle">Criar conta</h2>
+        <p id="formDescription">Comece sua jornada no GR Fit.</p>
+
+        <form id="registerForm">
+          <label for="name">Nome completo</label>
+          <input id="name" required autocomplete="name">
+
+          <label for="email">E-mail</label>
+          <input id="email" type="email" required autocomplete="email">
+
+          <label for="password">Senha (mínimo 8 caracteres)</label>
+          <input id="password" type="password" minlength="8"
+            required autocomplete="new-password">
+
+          <label for="role">Tipo de conta</label>
+          <select id="role">
+            <option value="aluno">Aluno</option>
+            <option value="profissional">Profissional</option>
+          </select>
+
+          <button type="submit">Criar conta</button>
+        </form>
+
+        <button type="button" id="toggleLogin">
+          Já tenho conta — entrar
+        </button>
+        <p id="message" class="message" role="status"></p>
+      </div>
+
+      <div id="dashboard" class="hidden">
+        <h2 id="welcome"></h2>
+        <p>Você entrou no GR Fit!</p>
+        <button type="button" id="logout">Sair da conta</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById("registerForm");
+    const toggle = document.getElementById("toggleLogin");
+    const message = document.getElementById("message");
+    let loginMode = false;
+
+    toggle.addEventListener("click", () => {
+      loginMode = !loginMode;
+      form.reset();
+      document.getElementById("name").required = !loginMode;
+      document.getElementById("role").parentElement.style.display =
+        loginMode ? "none" : "block";
+      document.getElementById("formTitle").textContent =
+        loginMode ? "Entrar" : "Criar conta";
+      document.getElementById("formDescription").textContent =
+        loginMode ? "Acesse sua conta GR Fit." : "Comece sua jornada no GR Fit.";
+      form.querySelector("button[type=submit]").textContent =
+        loginMode ? "Entrar" : "Criar conta";
+      toggle.textContent = loginMode
+        ? "Não tenho conta — cadastrar"
+        : "Já tenho conta — entrar";
+      message.textContent = "";
+    });
+
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      message.textContent =
+        "A interface está pronta, mas o cadastro real será ativado na próxima etapa com o Supabase.";
+    });
+  </script>
+</body>
+</html>
